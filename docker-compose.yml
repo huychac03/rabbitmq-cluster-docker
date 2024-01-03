@@ -10,18 +10,22 @@ services:
     volumes:
       - ./.erlang.cookie:/var/lib/rabbitmq/.erlang.cookie
       - ./cluster-entrypoint.sh:/usr/local/bin/cluster-entrypoint.sh
+      - rabbitmq_data_1:/var/lib/rabbitmq/
+      - rabbitmq_log_1:/var/log/rabbitmq
     entrypoint: /usr/local/bin/cluster-entrypoint.sh
 
   rabbitmq2:
     image: rabbitmq:3-management
     hostname: rabbitmq2
     depends_on:
-      - rabbitmq1
+      - rabbitmq1 
     environment:
       - JOIN_CLUSTER_HOST=rabbitmq1
     volumes:
       - ./.erlang.cookie:/var/lib/rabbitmq/.erlang.cookie
       - ./cluster-entrypoint.sh:/usr/local/bin/cluster-entrypoint.sh
+      - rabbitmq_data_2:/var/lib/rabbitmq/
+      - rabbitmq_log_2:/var/log/rabbitmq
     entrypoint: /usr/local/bin/cluster-entrypoint.sh
 
   rabbitmq3:
@@ -34,10 +38,12 @@ services:
     volumes:
       - ./.erlang.cookie:/var/lib/rabbitmq/.erlang.cookie
       - ./cluster-entrypoint.sh:/usr/local/bin/cluster-entrypoint.sh
+      - rabbitmq_data_3:/var/lib/rabbitmq/
+      - rabbitmq_log_3:/var/log/rabbitmq
     entrypoint: /usr/local/bin/cluster-entrypoint.sh
 
   haproxy:
-    image: haproxy:1.7
+    image: haproxy:lts
     volumes:
       - ./haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg:ro
     depends_on:
@@ -47,3 +53,22 @@ services:
     ports:
       - 15672:15672
       - 5672:5672
+
+networks:
+  rabbitmq_network:
+    driver: bridge
+    external: true
+
+volumes:
+  rabbitmq_data_1:
+    external: true
+  rabbitmq_log_1:
+    external: true
+  rabbitmq_data_2:
+    external: true
+  rabbitmq_log_2:
+    external: true
+  rabbitmq_data_3:
+    external: true
+  rabbitmq_log_3:
+    external: true
