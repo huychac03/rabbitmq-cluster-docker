@@ -12,7 +12,7 @@ services:
       - ./.erlang.cookie:/var/lib/rabbitmq/.erlang.cookie
       - ./cluster-entrypoint.sh:/usr/local/bin/cluster-entrypoint.sh
       - rabbitmq_data_1:/var/lib/rabbitmq/
-      - rabbitmq_log_1:/var/log/rabbitmq
+      # - rabbitmq_log_1:/var/log/rabbitmq
     entrypoint: /usr/local/bin/cluster-entrypoint.sh
 
   rabbitmq2:
@@ -27,7 +27,7 @@ services:
       - ./.erlang.cookie:/var/lib/rabbitmq/.erlang.cookie
       - ./cluster-entrypoint.sh:/usr/local/bin/cluster-entrypoint.sh
       - rabbitmq_data_2:/var/lib/rabbitmq/
-      - rabbitmq_log_2:/var/log/rabbitmq
+      # - rabbitmq_log_2:/var/log/rabbitmq
     entrypoint: /usr/local/bin/cluster-entrypoint.sh
 
   rabbitmq3:
@@ -42,7 +42,7 @@ services:
       - ./.erlang.cookie:/var/lib/rabbitmq/.erlang.cookie
       - ./cluster-entrypoint.sh:/usr/local/bin/cluster-entrypoint.sh
       - rabbitmq_data_3:/var/lib/rabbitmq/
-      - rabbitmq_log_3:/var/log/rabbitmq
+      # - rabbitmq_log_3:/var/log/rabbitmq
     entrypoint: /usr/local/bin/cluster-entrypoint.sh
 
   haproxy:
